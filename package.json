@@ -7,7 +7,6 @@
     "build": "tsc",
     "dev": "ts-node ./src/server.ts",
     "start": "nodemon ./src/dist/server.js",
-    "prod": "npm run build && npm run start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Estefanía García",
