@@ -1,0 +1,8 @@
+version: "3.1"
+
+services:
+  node:   
+    environment:
+      - NODE_ENV=dev 
+
+    command: bash -c "npm i && npm start"

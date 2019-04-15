@@ -7,18 +7,18 @@ services:
   db:
     container_name: mongoDB
     image: mongo:latest
-
-    volumes:
-      - ./pokeData:/data/db
+    
     networks:
       - pokemon-rest-net 
+    volumes:
+      - ./pokeData:/data/db
 
     environment:
       - MONGO_INITDB_DATABASE= Pokemon
     
   node:
     image: node:latest
-    
+
     networks:
       - pokemon-rest-net
     ports:
@@ -26,11 +26,7 @@ services:
 
     volumes:
       - .:/usr/src/app
-      # - /usr/src/app/node_modules
-
     working_dir: /usr/src/app
   
     depends_on:
       - db
-  
-    command: npm start
