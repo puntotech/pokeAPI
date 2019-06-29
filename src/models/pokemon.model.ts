@@ -8,3 +8,5 @@ export const PokemonSchema = new mongoose.Schema({
   Weight: Number,
   Photo: String
 });
+
+export const Pokemon = mongoose.model("Pokemon", PokemonSchema);
