@@ -1,7 +1,8 @@
-import express from "express";
+import { Controller } from "./main.controller";
+import { MONGO_URL } from "./constants/pokeApi.constants";
 import bodyParser from "body-parser";
 import cors from "cors";
-import { Controller } from "./main.controller";
+import express from "express";
 import mongoose from "mongoose";
 class App {
   public app: any;
@@ -23,7 +24,7 @@ class App {
 
   private _setMongoConfig() {
     mongoose.Promise = global.Promise;
-    mongoose.connect("mongodb://localhost:27017/Pokemon", {
+    mongoose.connect(MONGO_URL, {
       useNewUrlParser: true
     });
   }
