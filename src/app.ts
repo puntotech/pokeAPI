@@ -23,7 +23,7 @@ class App {
 
   private _setMongoConfig() {
     mongoose.Promise = global.Promise;
-    mongoose.connect("mongodb://localhost:27017/Pokemon", {
+    mongoose.connect("mongodb://db:27017/Pokemon", {
       useNewUrlParser: true
     });
   }
