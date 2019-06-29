@@ -18,3 +18,5 @@ PokemonSchema.set("toJSON", {
     delete ret._id;
   }
 });
+
+export const Pokemon = mongoose.model("Pokemon", PokemonSchema);
