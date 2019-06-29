@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import { PokemonSchema } from "../models/pokemon.model";
-import mongoose from "mongoose";
 
-const Pokemon = mongoose.model("Pokemon", PokemonSchema);
+import { Pokemon } from "../models/pokemon.model";
+import { WELCOME_MESSAGE } from "../constants/pokeApi.constants";
+
 export class PokeService {
   public welcomeMessage(req: Request, res: Response) {
-    res.status(200).send("Welcome to pokeAPI REST ^^");
+    res.status(200).send(WELCOME_MESSAGE);
   }
 
   public getAllPokemon(req: Request, res: Response) {
