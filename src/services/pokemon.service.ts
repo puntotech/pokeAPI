@@ -34,7 +34,7 @@ export class PokeService {
         res.send(error);
       }
       const message = deleted ? 'Deleted successfully' : 'Pokemon not found :(';
-      res.status(200).send(message);
+      res.send(message);
     });
   }
 
