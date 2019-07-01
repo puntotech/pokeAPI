@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema } from 'mongoose';
 
 export const PokemonSchema = new mongoose.Schema(
   {
@@ -12,11 +12,11 @@ export const PokemonSchema = new mongoose.Schema(
   { versionKey: false }
 );
 
-PokemonSchema.set("toJSON", {
+PokemonSchema.set('toJSON', {
   transform: function(doc: any, ret: any, options: any) {
     ret.id = ret._id;
     delete ret._id;
   }
 });
 
-export const Pokemon = mongoose.model("Pokemon", PokemonSchema);
+export const Pokemon = mongoose.model('Pokemon', PokemonSchema);

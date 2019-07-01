@@ -1,7 +1,7 @@
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
 
-import { Pokemon } from "../models/pokemon.model";
-import { WELCOME_MESSAGE } from "../constants/pokeApi.constants";
+import { Pokemon } from '../models/pokemon.model';
+import { WELCOME_MESSAGE } from '../constants/pokeApi.constants';
 
 export class PokeService {
   public welcomeMessage(req: Request, res: Response) {
@@ -33,21 +33,24 @@ export class PokeService {
       if (error) {
         res.send(error);
       }
-      const message = deleted ? "Deleted successfully" : "Pokemon not found :(";
+      const message = deleted ? 'Deleted successfully' : 'Pokemon not found :(';
       res.status(200).send(message);
     });
   }
 
   public updatePokemon(req: Request, res: Response) {
-    const pokemonID = req.params.id;
-    Pokemon.findOneAndUpdate(
-      { _id: pokemonID },
+    const pokemonId = req.params.id;
+    Pokemon.findByIdAndUpdate(
+      pokemonId,
       req.body,
       (error: Error, pokemon: any) => {
         if (error) {
           res.send(error);
         }
-        res.json(pokemon);
+        const message = pokemon
+          ? 'Updated successfully'
+          : 'Pokemon not found :(';
+        res.send(message);
       }
     );
   }
