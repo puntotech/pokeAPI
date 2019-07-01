@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 export const PokemonSchema = new mongoose.Schema({
   Name: String,
@@ -9,4 +9,4 @@ export const PokemonSchema = new mongoose.Schema({
   Photo: String
 });
 
-export const Pokemon = mongoose.model("Pokemon", PokemonSchema);
+export const Pokemon = mongoose.model('Pokemon', PokemonSchema);
