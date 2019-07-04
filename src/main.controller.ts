@@ -1,22 +1,20 @@
-import { PokeService } from "./services/pokemon.service";
+import { Application } from 'express';
+import { IPokemonService } from './interfaces/pokemon-service.interface';
 
 export class Controller {
-  private pokeService: PokeService;
-
-  constructor(private app: any) {
-    this.pokeService = new PokeService();
+  constructor(private app: Application, private pokeService: IPokemonService) {
     this.routes();
   }
 
   public routes() {
-    this.app.route("/").get(this.pokeService.welcomeMessage);
+    this.app.route('/').get(this.pokeService.welcomeMessage);
 
-    this.app.route("/pokemons").get(this.pokeService.getAllPokemon);
+    this.app.route('/pokemons').get(this.pokeService.getAllPokemon);
 
-    this.app.route("/pokemon").post(this.pokeService.addNewPokemon);
+    this.app.route('/pokemon').post(this.pokeService.addNewPokemon);
 
     this.app
-      .route("/pokemon/:id")
+      .route('/pokemon/:id')
       .delete(this.pokeService.deletePokemon)
       .put(this.pokeService.updatePokemon);
   }
