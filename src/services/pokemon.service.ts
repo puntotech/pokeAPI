@@ -1,15 +1,17 @@
+import { Document, Mongoose, MongooseDocument } from 'mongoose';
 import { Request, Response } from 'express';
 
+import { IPokemonService } from '../interfaces/pokemon-service.interface';
 import { Pokemon } from '../models/pokemon.model';
 import { WELCOME_MESSAGE } from '../constants/pokeApi.constants';
 
-export class PokeService {
+export class PokeService implements IPokemonService {
   public welcomeMessage(req: Request, res: Response) {
     res.status(200).send(WELCOME_MESSAGE);
   }
 
   public getAllPokemon(req: Request, res: Response) {
-    Pokemon.find({}, (error: Error, pokemon: any) => {
+    Pokemon.find({}, (error: Error, pokemon: MongooseDocument) => {
       if (error) {
         res.send(error);
       }
@@ -19,7 +21,7 @@ export class PokeService {
 
   public addNewPokemon(req: Request, res: Response) {
     const newPokemon = new Pokemon(req.body);
-    newPokemon.save((error: Error, pokemon: any) => {
+    newPokemon.save((error: Error, pokemon: MongooseDocument) => {
       if (error) {
         res.send(error);
       }
