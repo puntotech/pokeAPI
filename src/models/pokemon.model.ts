@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
 
 export const PokemonSchema = new mongoose.Schema({
-  Name: String,
-  Gender: String,
-  Type: String,
-  Height: Number,
-  Weight: Number,
-  Photo: String
+  name: String,
+  gender: String,
+  type: String,
+  height: Number,
+  weight: Number,
+  photo: String
 });
 
 export const Pokemon = mongoose.model('Pokemon', PokemonSchema);
