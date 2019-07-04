@@ -1,3 +1,4 @@
+import { Mongoose, MongooseDocument } from 'mongoose';
 import { Request, Response } from 'express';
 
 import { Pokemon } from '../models/pokemon.model';
@@ -9,7 +10,7 @@ export class PokeService {
   }
 
   public getAllPokemon(req: Request, res: Response) {
-    Pokemon.find({}, (error: Error, pokemon: any) => {
+    Pokemon.find({}, (error: Error, pokemon: MongooseDocument) => {
       if (error) {
         res.send(error);
       }
@@ -19,7 +20,7 @@ export class PokeService {
 
   public addNewPokemon(req: Request, res: Response) {
     const newPokemon = new Pokemon(req.body);
-    newPokemon.save((error: Error, pokemon: any) => {
+    newPokemon.save((error: Error, pokemon: MongooseDocument) => {
       if (error) {
         res.send(error);
       }
