@@ -1,4 +1,8 @@
 node_modules
 package-lock.json
 dist
+<<<<<<< HEAD
 pokeData
+=======
+pokeData/
+>>>>>>> part1
