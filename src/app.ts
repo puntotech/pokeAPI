@@ -9,12 +9,12 @@ class App {
 
   constructor() {
     this.app = express();
-    this._setConfig();
+    this.setConfig();
 
     this.pokeController = new Controller(this.app);
   }
 
-  private _setConfig() {
+  private setConfig() {
     this.app.use(bodyParser.json({ limit: '50mb' }));
     this.app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
     this.app.use(cors());
