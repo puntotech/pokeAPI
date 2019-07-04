@@ -1,9 +1,10 @@
-import express from "express";
-import bodyParser from "body-parser";
-import cors from "cors";
-import { Controller } from "./main.controller";
+import { Application } from 'express';
+import { Controller } from './main.controller';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import express from 'express';
 class App {
-  public app: any;
+  public app: Application;
   public pokeController: Controller;
 
   constructor() {
@@ -14,8 +15,8 @@ class App {
   }
 
   private _setConfig() {
-    this.app.use(bodyParser.json({ limit: "50mb" }));
-    this.app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
+    this.app.use(bodyParser.json({ limit: '50mb' }));
+    this.app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
     this.app.use(cors());
   }
 }
