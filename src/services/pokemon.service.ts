@@ -1,6 +1,6 @@
-import { Mongoose, MongooseDocument } from 'mongoose';
 import { Request, Response } from 'express';
 
+import { MongooseDocument } from 'mongoose';
 import { Pokemon } from '../models/pokemon.model';
 import { WELCOME_MESSAGE } from '../constants/pokeApi.constants';
 
