@@ -1,9 +1,10 @@
 import { PokeService } from "./services/pokemon.service";
+import { Application } from "express";
 
 export class Controller {
   private pokeService: PokeService;
 
-  constructor(private app: any) {
+  constructor(private app: Application) {
     this.pokeService = new PokeService();
     this.routes();
   }

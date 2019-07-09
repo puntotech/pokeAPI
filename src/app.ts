@@ -2,10 +2,10 @@ import { Controller } from './main.controller';
 import { MONGO_URL } from './constants/pokeApi.constants';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import express from 'express';
+import express, { Application } from 'express';
 import mongoose from 'mongoose';
 class App {
-  public app: any;
+  public app: Application;
   public pokeController: Controller;
 
   constructor() {
