@@ -1,7 +1,22 @@
 version: "3.1"
 
 services:
-  db:
+  api:
+    container_name: api
+    image: node:11
+    restart: always
+    volumes:
+      - ./src:/var/www/src
+      - ./node_modules:/var/www/node_modules
+      - ./package.json:/var/www/package.json
+      - ./nodemon.json:/var/www/nodemon.json
+      - ./tsconfig.json:/var/www/tsconfig.json
+    build: .
+    ports:
+      - 8080:8080
+    depends_on:
+      - mongo
+  mongo:
     container_name: mongoDB
     image: mongo:latest
     restart: always
