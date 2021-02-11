@@ -1,57 +1,47 @@
-import { Request, Response } from 'express';
+import Pokemon from "../models/pokemon.model";
+import { WELCOME_MESSAGE } from "../constants/pokeApi.constants";
+import { IPokemon } from "../interfaces/pokemon.interface";
+import { HttpError } from "../errors/http.error";
 
-import { Pokemon } from '../models/pokemon.model';
-import { WELCOME_MESSAGE } from '../constants/pokeApi.constants';
-
-export class PokeService {
-  public welcomeMessage(req: Request, res: Response) {
-    res.status(200).send(WELCOME_MESSAGE);
+export class PokemonService {
+  public welcomeMessage(): string {
+    return WELCOME_MESSAGE;
   }
 
-  public getAllPokemon(req: Request, res: Response) {
-    Pokemon.find({}, (error: Error, pokemon: any) => {
-      if (error) {
-        res.send(error);
-      }
-      res.json(pokemon);
-    });
+  public getAllPokemon(): Promise<IPokemon[]> {
+    return Pokemon.find({}).exec();
   }
 
-  public addNewPokemon(req: Request, res: Response) {
-    const newPokemon = new Pokemon(req.body);
-    newPokemon.save((error: Error, pokemon: any) => {
-      if (error) {
-        res.send(error);
-      }
-      res.json(pokemon);
-    });
+  public addNewPokemon(pokemon: IPokemon): Promise<IPokemon> {
+    const newPokemon = new Pokemon(pokemon);
+    return newPokemon.save();
   }
 
-  public deletePokemon(req: Request, res: Response) {
-    const pokemonID = req.params.id;
-    Pokemon.findByIdAndDelete(pokemonID, (error: Error, deleted: any) => {
-      if (error) {
-        res.send(error);
-      }
-      const message = deleted ? 'Deleted successfully' : 'Pokemon not found :(';
-      res.status(200).send(message);
-    });
+  public async deletePokemon(id: string) {
+    const deletedPokemon: Promise<IPokemon> = await Pokemon.findByIdAndDelete(
+      id
+    ).exec();
+
+    if (!deletedPokemon) {
+      throw new HttpError(`Pokemon with id '${id}' not found`, 404);
+    }
+
+    return deletedPokemon;
   }
 
-  public updatePokemon(req: Request, res: Response) {
-    const pokemonId = req.params.id;
-    Pokemon.findByIdAndUpdate(
-      pokemonId,
-      req.body,
-      (error: Error, pokemon: any) => {
-        if (error) {
-          res.send(error);
-        }
-        const message = pokemon
-          ? 'Updated successfully'
-          : 'Pokemon not found :(';
-        res.send(message);
-      }
-    );
+  public async updatePokemon(
+    id: string,
+    pokemon: IPokemon | Partial<IPokemon>
+  ) {
+    const updatedPokemon: Promise<IPokemon> = await Pokemon.findByIdAndUpdate(
+      id,
+      pokemon
+    ).exec();
+
+    if (!updatedPokemon) {
+      throw new HttpError(`Pokemon with id '${id}' not found`, 404);
+    }
+
+    return updatedPokemon;
   }
 }
