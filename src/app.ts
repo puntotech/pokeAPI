@@ -1,31 +1,38 @@
-import express from "express";
+import express, { Application } from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
-import { Controller } from "./main.controller";
+import { PokemonController } from "./pokemon.controller";
 import mongoose from "mongoose";
+import { PokemonService } from "./services/pokemon.service";
+
 class App {
-  public app: any;
-  public pokeController: Controller;
+  public app: Application;
+  public pokeController: PokemonController;
 
   constructor() {
     this.app = express();
-    this._setConfig();
-    this._setMongoConfig();
-
-    this.pokeController = new Controller(this.app);
+    this.setConfig();
+    this.setMongoConfig();
+    this.setControllers();
   }
 
-  private _setConfig() {
+  private setConfig() {
     this.app.use(bodyParser.json({ limit: "50mb" }));
     this.app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
     this.app.use(cors());
   }
 
-  private _setMongoConfig() {
+  private setMongoConfig() {
     mongoose.Promise = global.Promise;
     mongoose.connect("mongodb://localhost:27017/Pokemon", {
-      useNewUrlParser: true
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useFindAndModify: false,
     });
+  }
+
+  private setControllers() {
+    this.pokeController = new PokemonController(this.app, new PokemonService());
   }
 }
 
