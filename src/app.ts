@@ -4,6 +4,7 @@ import cors from "cors";
 import { PokemonController } from "./pokemon.controller";
 import mongoose from "mongoose";
 import { PokemonService } from "./services/pokemon.service";
+import { handleErrors } from "./middleware/error-handler.middleware";
 
 class App {
   public app: Application;
@@ -14,6 +15,7 @@ class App {
     this.setConfig();
     this.setMongoConfig();
     this.setControllers();
+    this.setErrorHandlingMiddleware();
   }
 
   private setConfig() {
@@ -29,10 +31,20 @@ class App {
       useUnifiedTopology: true,
       useFindAndModify: false,
     });
+    mongoose.set("toJSON", {
+      virtuals: true,
+      transform: (_: any, converted: any) => {
+        delete converted._id;
+      },
+    });
   }
 
   private setControllers() {
     this.pokeController = new PokemonController(this.app, new PokemonService());
+  }
+
+  private setErrorHandlingMiddleware() {
+    this.app.use(handleErrors);
   }
 }
 
