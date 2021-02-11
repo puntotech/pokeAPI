@@ -13,13 +13,6 @@ export const PokemonSchema = new Schema(
   { versionKey: false }
 );
 
-PokemonSchema.set("toJSON", {
-  transform: function (doc: any, ret: any, options: any) {
-    ret.id = ret._id;
-    delete ret._id;
-  },
-});
-
 const Pokemon = model<IPokemon>("Pokemon", PokemonSchema);
 
 export default Pokemon;
