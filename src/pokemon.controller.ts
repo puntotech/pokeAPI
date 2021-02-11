@@ -1,4 +1,4 @@
-import { Application, Request, Response } from "express";
+import { Application, NextFunction, Request, Response } from "express";
 import { PokemonService } from "./services/pokemon.service";
 
 export class PokemonController {
@@ -15,36 +15,52 @@ export class PokemonController {
       res.send(welcomeMessage);
     });
 
-    this.app.route("/all-pokemon").get(async (_, res: Response) => {
-      try {
-        const pokemon = await this.pokemonService.getAllPokemon();
-        res.send(pokemon);
-      } catch ({ status = 500, message }) {
-        res.status(status).send(message);
-      }
-    });
+    this.app
+      .route("/all-pokemon")
+      .get(async (_, res: Response, next: NextFunction) => {
+        try {
+          const pokemon = await this.pokemonService.getAllPokemon();
+          res.send(pokemon);
+        } catch (e) {
+          next(e);
+        }
+      });
 
-    this.app.route("/pokemon").post(async (req: Request, res: Response) => {
-      const addPokemonResult = await this.pokemonService.addNewPokemon(
-        req.body
-      );
-      res.send(addPokemonResult);
-    });
+    this.app
+      .route("/pokemon")
+      .post(async (req: Request, res: Response, next: NextFunction) => {
+        try {
+          const addPokemonResult = await this.pokemonService.addNewPokemon(
+            req.body
+          );
+          res.send(addPokemonResult);
+        } catch (e) {
+          next(e);
+        }
+      });
 
     this.app
       .route("/pokemon/:id")
-      .delete(async (req: Request, res: Response) => {
-        const deletePokemonResult = await this.pokemonService.deletePokemon(
-          req.params.id
-        );
-        res.send(deletePokemonResult);
+      .delete(async (req: Request, res: Response, next: NextFunction) => {
+        try {
+          const deletePokemonResult = await this.pokemonService.deletePokemon(
+            req.params.id
+          );
+          res.send(deletePokemonResult);
+        } catch (e) {
+          next(e);
+        }
       })
-      .put(async (req: Request, res: Response) => {
-        const updatePokemonResult = await this.pokemonService.updatePokemon(
-          req.params.id,
-          req.body
-        );
-        res.send(updatePokemonResult);
+      .put(async (req: Request, res: Response, next: NextFunction) => {
+        try {
+          const updatePokemonResult = await this.pokemonService.updatePokemon(
+            req.params.id,
+            req.body
+          );
+          res.send(updatePokemonResult);
+        } catch (e) {
+          next(e);
+        }
       });
   }
 }
