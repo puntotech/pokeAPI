@@ -1,11 +1,13 @@
-import { Application } from "express";
-import { Controller } from "./pokemon.controller";
+import { Application, Router } from "express";
+
+import { PokemonController } from "./pokemon.controller";
+import { PokemonService } from "./services/pokemon.service";
 import bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
+
 class App {
   public app: Application;
-  public pokemonController: Controller;
 
   constructor() {
     this.app = express();
@@ -20,7 +22,11 @@ class App {
   }
 
   private setControllers() {
-    this.pokemonController = new Controller(this.app);
+    const pokemonController = new PokemonController(
+      Router(),
+      new PokemonService()
+    );
+    this.app.use("/pokemon", pokemonController.router);
   }
 }
 
