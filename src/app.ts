@@ -1,14 +1,14 @@
-import express, { Application } from "express";
+import express, { Application, Router } from "express";
+
+import { PokemonController } from "./pokemon.controller";
+import { PokemonService } from "./services/pokemon.service";
 import bodyParser from "body-parser";
 import cors from "cors";
-import { PokemonController } from "./pokemon.controller";
-import mongoose from "mongoose";
-import { PokemonService } from "./services/pokemon.service";
 import { handleErrors } from "./middleware/error-handler.middleware";
+import mongoose from "mongoose";
 
 class App {
   public app: Application;
-  public pokeController: PokemonController;
 
   constructor() {
     this.app = express();
@@ -40,7 +40,11 @@ class App {
   }
 
   private setControllers() {
-    this.pokeController = new PokemonController(this.app, new PokemonService());
+    const pokemonController = new PokemonController(
+      Router(),
+      new PokemonService()
+    );
+    this.app.use("/pokemon", pokemonController.router);
   }
 
   private setErrorHandlingMiddleware() {

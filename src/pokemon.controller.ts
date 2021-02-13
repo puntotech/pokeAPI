@@ -1,21 +1,19 @@
-import { Application, NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response, Router } from "express";
+
 import { PokemonService } from "./services/pokemon.service";
 
 export class PokemonController {
-  constructor(
-    private app: Application,
-    private pokemonService: PokemonService
-  ) {
+  constructor(public router: Router, private pokemonService: PokemonService) {
     this.setRoutes();
   }
 
   public setRoutes() {
-    this.app.route("/").get((_, res: Response) => {
+    this.router.route("/").get((_, res: Response) => {
       const welcomeMessage = this.pokemonService.welcomeMessage();
       res.send(welcomeMessage);
     });
 
-    this.app
+    this.router
       .route("/all-pokemon")
       .get(async (_, res: Response, next: NextFunction) => {
         try {
@@ -26,7 +24,7 @@ export class PokemonController {
         }
       });
 
-    this.app
+    this.router
       .route("/pokemon")
       .post(async (req: Request, res: Response, next: NextFunction) => {
         try {
@@ -39,7 +37,7 @@ export class PokemonController {
         }
       });
 
-    this.app
+    this.router
       .route("/pokemon/:id")
       .delete(async (req: Request, res: Response, next: NextFunction) => {
         try {
