@@ -1,14 +1,16 @@
-import express, { Application, Router } from "express";
-
-import { PokemonController } from "./pokemon.controller";
+import { DragonballController } from "./controllers/dragonball.controller";
+import { DragonballService } from "./services/dragonball.service";
+import { MONGO } from "./constants/pokeApi.constants";
+import { PokemonController } from "./controllers/pokemon.controller";
 import { PokemonService } from "./services/pokemon.service";
 import bodyParser from "body-parser";
 import cors from "cors";
+import express from "express";
 import { handleErrors } from "./middleware/error-handler.middleware";
 import mongoose from "mongoose";
 
 class App {
-  public app: Application;
+  public app: express.Application;
 
   constructor() {
     this.app = express();
@@ -26,11 +28,7 @@ class App {
 
   private setMongoConfig() {
     mongoose.Promise = global.Promise;
-    mongoose.connect("mongodb://localhost:27017/Pokemon", {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useFindAndModify: false,
-    });
+    mongoose.connect(MONGO.url, MONGO.configuration);
     mongoose.set("toJSON", {
       virtuals: true,
       transform: (_: any, converted: any) => {
@@ -41,10 +39,15 @@ class App {
 
   private setControllers() {
     const pokemonController = new PokemonController(
-      Router(),
       new PokemonService()
     );
     this.app.use("/pokemon", pokemonController.router);
+    
+
+    const dragonballController = new DragonballController(
+      new DragonballService()
+    );
+    this.app.use("/dragonball", dragonballController.router);
   }
 
   private setErrorHandlingMiddleware() {
