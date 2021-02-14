@@ -1,23 +1,23 @@
+import { HttpError } from "../errors/http.error";
+import { IPokemon } from "../interfaces/pokemon.interface";
 import Pokemon from "../models/pokemon.model";
 import { WELCOME_MESSAGE } from "../constants/pokeApi.constants";
-import { IPokemon } from "../interfaces/pokemon.interface";
-import { HttpError } from "../errors/http.error";
 
 export class PokemonService {
   public welcomeMessage(): string {
     return WELCOME_MESSAGE;
   }
 
-  public getAllPokemon(): Promise<IPokemon[]> {
+  public find(): Promise<IPokemon[]> {
     return Pokemon.find({}).exec();
   }
 
-  public addNewPokemon(pokemon: IPokemon): Promise<IPokemon> {
+  public add(pokemon: IPokemon): Promise<IPokemon> {
     const newPokemon = new Pokemon(pokemon);
     return newPokemon.save();
   }
 
-  public async deletePokemon(id: string) {
+  public async delete(id: string) {
     const deletedPokemon: Promise<IPokemon> = await Pokemon.findByIdAndDelete(
       id
     ).exec();
@@ -29,7 +29,7 @@ export class PokemonService {
     return deletedPokemon;
   }
 
-  public async updatePokemon(
+  public async update(
     id: string,
     pokemon: IPokemon | Partial<IPokemon>
   ) {
