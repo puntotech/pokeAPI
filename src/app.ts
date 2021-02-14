@@ -1,5 +1,3 @@
-import { DragonballController } from "./controllers/dragonball.controller";
-import { DragonballService } from "./services/dragonball.service";
 import { MONGO } from "./constants/pokeApi.constants";
 import { PokemonController } from "./controllers/pokemon.controller";
 import { PokemonService } from "./services/pokemon.service";
@@ -38,16 +36,8 @@ class App {
   }
 
   private setControllers() {
-    const pokemonController = new PokemonController(
-      new PokemonService()
-    );
+    const pokemonController = new PokemonController(new PokemonService());
     this.app.use("/pokemon", pokemonController.router);
-    
-
-    const dragonballController = new DragonballController(
-      new DragonballService()
-    );
-    this.app.use("/dragonball", dragonballController.router);
   }
 
   private setErrorHandlingMiddleware() {
