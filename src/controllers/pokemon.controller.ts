@@ -4,35 +4,24 @@ import { PokemonService } from "../services/pokemon.service";
 
 export class PokemonController {
   public router = Router();
-  constructor(
-    private pokemonService: PokemonService,
-  ) {
+  constructor(private pokemonService: PokemonService) {
     this.setRoutes();
   }
 
   public setRoutes() {
-    this.router
-      .route('/')
-      .get(this.hello);
+    this.router.route("/").get(this.hello);
 
-    this.router
-      .route('/all-pokemon')
-      .get(this.find);
+    this.router.route("/all").get(this.find);
 
-    this.router
-      .route('/')
-      .post(this.add);
+    this.router.route("/").post(this.add);
 
-    this.router
-      .route('/pokemon/:id')
-      .delete(this.delete)
-      .put(this.update);
+    this.router.route("/:id").delete(this.delete).put(this.update);
   }
 
   private hello = (_: Request, res: Response) => {
     const welcomeMessage = this.pokemonService.welcomeMessage();
     res.send(welcomeMessage);
-  }
+  };
   private find = async (_: Request, res: Response, next: NextFunction) => {
     try {
       const pokemon = await this.pokemonService.find();
@@ -40,17 +29,15 @@ export class PokemonController {
     } catch (e) {
       next(e);
     }
-  }
-  private add = async (req: Request, res: Response, next: NextFunction)  => {
+  };
+  private add = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const addPokemonResult = await this.pokemonService.add(
-        req.body
-      );
+      const addPokemonResult = await this.pokemonService.add(req.body);
       res.send(addPokemonResult);
     } catch (e) {
       next(e);
     }
-  }
+  };
   private delete = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const deletePokemonResult = await this.pokemonService.delete(
@@ -60,7 +47,7 @@ export class PokemonController {
     } catch (e) {
       next(e);
     }
-  }
+  };
   private update = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const updatePokemonResult = await this.pokemonService.update(
@@ -71,5 +58,5 @@ export class PokemonController {
     } catch (e) {
       next(e);
     }
-  }
+  };
 }
