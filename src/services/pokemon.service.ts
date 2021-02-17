@@ -1,4 +1,4 @@
-import { WELCOME_MESSAGE } from "../constants/pokeApi.constants";
+import { WELCOME_MESSAGE } from "../constants/pokeapi.constants";
 
 export class PokemonService {
   public getWelcomeMessage() {
