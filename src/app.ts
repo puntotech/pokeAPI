@@ -1,5 +1,4 @@
-import { Application, Router } from "express";
-
+import { Application } from "express";
 import { PokemonController } from "./pokemon.controller";
 import { PokemonService } from "./services/pokemon.service";
 import bodyParser from "body-parser";
@@ -22,10 +21,10 @@ class App {
   }
 
   private setControllers() {
-    const pokemonController = new PokemonController(
-      Router(),
-      new PokemonService()
-    );
+    // Creating a new instance of our Pokemon Controller
+    const pokemonController = new PokemonController(new PokemonService());
+
+    // Telling express to use our Controller's routes
     this.app.use("/pokemon", pokemonController.router);
   }
 }
