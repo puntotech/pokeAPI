@@ -1,58 +1,43 @@
-import { Request, Response } from 'express';
+import { IPokemon } from "../interfaces/pokemon.interface";
+import { Pokemon } from "../models/pokemon.model";
+import { WELCOME_MESSAGE } from "../constants/pokeApi.constants";
 
-import { MongooseDocument } from 'mongoose';
-import { Pokemon } from '../models/pokemon.model';
-import { WELCOME_MESSAGE } from '../constants/pokeApi.constants';
-
-export class PokeService {
-  public welcomeMessage(req: Request, res: Response) {
-    res.status(200).send(WELCOME_MESSAGE);
+export class PokemonService {
+  public welcomeMessage(): string {
+    return WELCOME_MESSAGE;
   }
 
-  public getAllPokemon(req: Request, res: Response) {
-    Pokemon.find({}, (error: Error, pokemon: MongooseDocument) => {
-      if (error) {
-        res.send(error);
-      }
-      res.json(pokemon);
-    });
+  public findAll(): Promise<IPokemon[]> {
+    return Pokemon.find({}).exec();
   }
 
-  public addNewPokemon(req: Request, res: Response) {
-    const newPokemon = new Pokemon(req.body);
-    newPokemon.save((error: Error, pokemon: MongooseDocument) => {
-      if (error) {
-        res.send(error);
-      }
-      res.json(pokemon);
-    });
+  public add(pokemon: IPokemon): Promise<IPokemon> {
+    const newPokemon = new Pokemon(pokemon);
+    return newPokemon.save();
   }
 
-  public deletePokemon(req: Request, res: Response) {
-    const pokemonID = req.params.id;
-    Pokemon.findByIdAndDelete(pokemonID, (error: Error, deleted: any) => {
-      if (error) {
-        res.send(error);
-      }
-      const message = deleted ? 'Deleted successfully' : 'Pokemon not found :(';
-      res.send(message);
-    });
+  public async delete(id: string) {
+    const deletedPokemon: Promise<IPokemon> = await Pokemon.findByIdAndDelete(
+      id
+    ).exec();
+
+    if (!deletedPokemon) {
+      throw new Error(`Pokemon with id '${id}' not found`);
+    }
+
+    return deletedPokemon;
   }
 
-  public updatePokemon(req: Request, res: Response) {
-    const pokemonId = req.params.id;
-    Pokemon.findByIdAndUpdate(
-      pokemonId,
-      req.body,
-      (error: Error, pokemon: any) => {
-        if (error) {
-          res.send(error);
-        }
-        const message = pokemon
-          ? 'Updated successfully'
-          : 'Pokemon not found :(';
-        res.send(message);
-      }
-    );
+  public async update(id: string, pokemon: IPokemon) {
+    const updatedPokemon: Promise<IPokemon> = await Pokemon.findByIdAndUpdate(
+      id,
+      pokemon
+    ).exec();
+
+    if (!updatedPokemon) {
+      throw new Error(`Pokemon with id '${id}' not found`);
+    }
+
+    return updatedPokemon;
   }
 }
