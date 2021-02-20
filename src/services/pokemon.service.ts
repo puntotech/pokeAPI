@@ -1,7 +1,7 @@
 import { HttpError } from "../errors/http.error";
 import { IPokemon } from "../interfaces/pokemon.interface";
 import Pokemon from "../models/pokemon.model";
-import { WELCOME_MESSAGE } from "../constants/pokeApi.constants";
+import { WELCOME_MESSAGE } from "../constants/pokeapi.constants";
 
 export class PokemonService {
   public welcomeMessage(): string {
@@ -29,10 +29,7 @@ export class PokemonService {
     return deletedPokemon;
   }
 
-  public async update(
-    id: string,
-    pokemon: IPokemon | Partial<IPokemon>
-  ) {
+  public async update(id: string, pokemon: IPokemon | Partial<IPokemon>) {
     const updatedPokemon: Promise<IPokemon> = await Pokemon.findByIdAndUpdate(
       id,
       pokemon

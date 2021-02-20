@@ -1,4 +1,4 @@
-import { MONGO } from "./constants/pokeApi.constants";
+import { MONGO } from "./constants/pokeapi.constants";
 import { PokemonController } from "./controllers/pokemon.controller";
 import { PokemonService } from "./services/pokemon.service";
 import bodyParser from "body-parser";

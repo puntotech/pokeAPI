@@ -1,4 +1,4 @@
-import { PORT } from "./constants/pokeApi.constants";
+import { PORT } from "./constants/pokeapi.constants";
 import app from "./app";
 
 app.listen(PORT, () => {
