@@ -1,7 +1,8 @@
-import { IPokemon } from "../interfaces/pokemon.interface";
-import mongoose from "mongoose";
+import { Schema, model } from "mongoose";
 
-export const PokemonSchema = new mongoose.Schema({
+import { IPokemon } from "../interfaces/pokemon.interface";
+
+export const PokemonSchema = new Schema({
   name: { type: String, required: [true, "Field is required"] },
   gender: { type: String, required: [true, "Field is required"] },
   type: { type: String, required: [true, "Field is required"] },
@@ -10,4 +11,4 @@ export const PokemonSchema = new mongoose.Schema({
   photo: { type: String, required: [true, "Field is required"] },
 });
 
-export const Pokemon = mongoose.model<IPokemon>("Pokemon", PokemonSchema);
+export const Pokemon = model<IPokemon>("Pokemon", PokemonSchema);
