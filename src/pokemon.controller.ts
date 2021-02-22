@@ -27,7 +27,7 @@ export class PokemonController {
       const pokemon = await this.pokemonService.findAll();
       res.send(pokemon);
     } catch (e) {
-      res.send(e.message);
+      res.status(500).send(e.message);
     }
   };
 
@@ -36,7 +36,7 @@ export class PokemonController {
       const addPokemonResult = await this.pokemonService.add(req.body);
       res.send(addPokemonResult);
     } catch (e) {
-      res.send(e.message);
+      res.status(500).send(e.message);
     }
   };
 
@@ -47,7 +47,7 @@ export class PokemonController {
       );
       res.send(deletePokemonResult);
     } catch (e) {
-      res.send(e.message);
+      res.status(500).send(e.message);
     }
   };
 
@@ -59,7 +59,7 @@ export class PokemonController {
       );
       res.send(updatePokemonResult);
     } catch (e) {
-      res.send(e.message);
+      res.status(500).send(e.message);
     }
   };
 }
