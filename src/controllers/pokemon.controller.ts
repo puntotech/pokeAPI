@@ -11,7 +11,7 @@ export class PokemonController {
   public setRoutes() {
     this.router.route("/").get(this.hello);
 
-    this.router.route("/all").get(this.find);
+    this.router.route("/all").get(this.findAll);
 
     this.router.route("/").post(this.add);
 
@@ -22,7 +22,7 @@ export class PokemonController {
     const welcomeMessage = this.pokemonService.welcomeMessage();
     res.send(welcomeMessage);
   };
-  private find = async (_: Request, res: Response, next: NextFunction) => {
+  private findAll = async (_: Request, res: Response, next: NextFunction) => {
     try {
       const pokemon = await this.pokemonService.find();
       res.send(pokemon);
